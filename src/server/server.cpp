@@ -1050,6 +1050,10 @@ namespace umbriel {
       wl_event_source_timer_update(m_startupRulesTimer, kStartupWindowRuleDurationMs);
     }
 
+    if (!systemdNotifyReady()) {
+      return false;
+    }
+
     if (startupCmd != nullptr) {
       spawn(startupCmd);
     }

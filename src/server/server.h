@@ -519,6 +519,8 @@ namespace umbriel {
     static void onIpcWorkspacesIdle(void* data);
     static void onDisplacedRestoreIdle(void* data);
 
+    bool systemdNotifyReady();
+
     void spawnCommand(const char* command, const char* description, bool withActivationToken, SpawnClass spawnClass);
 
     void trackActivationToken(wlr_xdg_activation_token_v1* token, bool compositorIssued);

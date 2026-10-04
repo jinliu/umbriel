@@ -7,6 +7,6 @@ PartOf=umbriel-session.target
 Before=umbriel-session.target
 
 [Service]
-Type=simple
+Type=notify
 Slice=session.slice
 ExecStart=@UMBRIEL_EXECUTABLE@

@@ -651,6 +651,7 @@ core_sources = files(
   'src/server/server_events.cpp',
   'src/server/server_keybinds.cpp',
   'src/server/server_outputs.cpp',
+  'src/server/server_sd_notify.cpp',
   'src/server/actions.cpp',
   'src/server/effects.cpp',
   'src/output/output.cpp',
