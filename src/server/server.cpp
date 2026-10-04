@@ -1035,7 +1035,7 @@ namespace umbriel {
     // receives the explicit configured assignments before it starts.
     if (!m_nested) {
       const std::string command = sessionEnvironmentCommand();
-      execCommandAndWait(command.c_str());
+      execCommandAndWait(command.c_str(), "session environment synchronization");
     }
     applyConfiguredEnvironment();
 
@@ -1195,7 +1195,7 @@ namespace umbriel {
     return m_shellLayerTrees[layer];
   }
 
-  void Server::execCommandAndWait(const char* command) {
+  void Server::execCommandAndWait(const char* command, const char* description) {
     pid_t pid = fork();
     if (pid < 0) {
       wlr_log(WLR_ERROR, "fork failed");
@@ -1207,6 +1207,9 @@ namespace umbriel {
       execl("/bin/sh", "/bin/sh", "-c", command, nullptr);
       _exit(1);
     }
+    wlr_log(
+        WLR_INFO, "spawned '%s'", description == nullptr ? command : description
+    );
     int status;
     waitpid(pid, &status, 0);
   }
