@@ -521,6 +521,7 @@ namespace umbriel {
 
     bool systemdNotifyReady();
 
+    void execCommandAndWait(const char* command);
     void spawnCommand(const char* command, const char* description, bool withActivationToken, SpawnClass spawnClass);
 
     void trackActivationToken(wlr_xdg_activation_token_v1* token, bool compositorIssued);

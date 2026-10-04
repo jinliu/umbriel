@@ -51,6 +51,7 @@ extern "C" {
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
 
@@ -1034,7 +1035,7 @@ namespace umbriel {
     // receives the explicit configured assignments before it starts.
     if (!m_nested) {
       const std::string command = sessionEnvironmentCommand();
-      spawnCommand(command.c_str(), "session environment synchronization", false, SpawnClass::SessionHelper);
+      execCommandAndWait(command.c_str());
     }
     applyConfiguredEnvironment();
 
@@ -1192,6 +1193,20 @@ namespace umbriel {
       return m_shellLayerTrees[ZWLR_LAYER_SHELL_V1_LAYER_TOP];
     }
     return m_shellLayerTrees[layer];
+  }
+
+  void Server::execCommandAndWait(const char* command) {
+    pid_t pid = fork();
+    if (pid < 0) {
+      wlr_log(WLR_ERROR, "fork failed");
+      return;
+    }
+    if (pid == 0) {
+      execl("/bin/sh", "/bin/sh", "-c", command, nullptr);
+      _exit(1);
+    }
+    int status;
+    waitpid(pid, &status, 0);
   }
 
   void Server::spawn(const char* command, const char* description, bool withActivationToken) {
