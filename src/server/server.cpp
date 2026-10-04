@@ -1202,6 +1202,8 @@ namespace umbriel {
       return;
     }
     if (pid == 0) {
+      resetChildSignalState();
+      restoreFileDescriptorLimit();
       execl("/bin/sh", "/bin/sh", "-c", command, nullptr);
       _exit(1);
     }
